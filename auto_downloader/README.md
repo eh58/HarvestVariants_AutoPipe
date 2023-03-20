@@ -10,5 +10,5 @@ or between 9:00 PM and 5:00 AM Eastern time during weekdays. For more info, plea
 
 This tool needs to be run under python 3 or above and biopython enviornments. To run the tool:
 ```
-python auto_downloader/downloader.py --email {your NCBI email address} --api_key {your NCBI api key} yy/mm/dd:yy/mm/dd {location to save file}
+python auto_downloader/downloader.py yy/mm/dd:yy/mm/dd {location to save file} --email {your NCBI email address} --api_key {your NCBI api key}
 ```

@@ -10,8 +10,5 @@ or between 9:00 PM and 5:00 AM Eastern time during weekdays. For more info, plea
 
 This tool needs to be run under python 3 or above and biopython enviornments. To run the tool,
 ```
-python auto_downloader/downloader.py --email {your NCBI email address} --api_key {your NCBI api key} --pdat yy/mm/dd:yy/mm/dd --output_dir {directory to save file}
-```
-The pdat is a required parser for the start and end dates of publication date. Email and api_key are optional. The output location is also optional 
-and if you do not specific a location, it will be saved in your current directory where you run the tool. Default filename is in yyyymmdd_yyyymmdd_original.xml 
-style which indicates the start and end pdat.
+
+The pdat is a required parser for the start and end dates of publication date. Email and api_key are optional. Default filename is in yyyymmdd_yyyymmdd_original.xml style which indicates the start and end pdat.

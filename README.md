@@ -7,7 +7,7 @@ python hv_pipeline.py --email {email associated with your NCBI account} --api_ky
 
 The ```pdat``` is a required parser for the start and end dates of publication date. The ```suggester_jar``` requires the path to where you store the ```run-suggester.jar``` in your local or server directory.
 
-The output files including intermediate output files will be instored in the follwing file tree stucture where the directories will be automatically created if not exist,
+The output files including intermediate output files will be stored in the follwing file tree stucture where the directories will be automatically created if not exist,
 ```bash
 ├── Data
 │   ├── hv
@@ -15,7 +15,7 @@ The output files including intermediate output files will be instored in the fol
 │   ├── suggester
 │   └── xml
 ```
-where the xml files (including both the original files and pretty print files converted after xml_pp tool will be stored in the `xml` folder, and the SRA ID list txt files will be stored in the suggester folder, etc.)
+where the xml files (including both the original files and pretty print files converted after using xml_pp tool) will be stored in the `xml` folder, and the SRA ID list txt files will be stored in the suggester folder, etc.)
 
 The email and api_key parameters are optional. You don't need an email address of registered NCBI account or the API Key associated with the account to run the tool.  
 However, it's highly recommended to do so as NCBI Entrez gives permission to access up to 10 requests per second to E-utilities  

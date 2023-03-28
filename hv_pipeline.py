@@ -29,7 +29,7 @@ start_date, end_date = start_date.replace("/", ""), end_date.replace("/", "")
 output_xml_filename = f"{start_date}_{end_date}_original.xml"
 output_xml_file_path = os.path.join("./Data/xml/", output_xml_filename)
 
-cmd1 = ["python", "auto-downloader/downloader.py",
+cmd1 = ["python", "auto_downloader/downloader.py",
         "--email", args1.email,
         "--api_key", args1.api_key,
         "--pdat", args1.pdat]

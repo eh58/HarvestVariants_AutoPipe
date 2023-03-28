@@ -6,14 +6,21 @@ import subprocess
 def is_warning_line(line):
     return line.startswith("WARNING")
 
-if len(sys.argv) != 4:
-    print("Usage: {} <path_to_jar> <input_xml_file> <output_directory>".format(sys.argv[0]))
+# Modify the argument check and help message
+if len(sys.argv) < 3:
+    print("Usage: {} <path_to_jar> <input_xml_file> [output_directory]".format(sys.argv[0]))
     sys.exit(1)
 
 path_to_jar = sys.argv[1]
 input_xml_file = sys.argv[2]
-output_directory = sys.argv[3]
 
+# # Set the output_directory to the provided value or use the default
+# if len(sys.argv) == 4:
+#     output_directory = sys.argv[3]
+# else:
+#     output_directory = "./Data/suggester/"
+
+output_directory = "./Data/suggester/"
 os.makedirs(output_directory, exist_ok=True)
 
 log4j2_config = tempfile.NamedTemporaryFile(delete=False)

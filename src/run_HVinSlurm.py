@@ -37,7 +37,7 @@ def check_slurm_jobs_complete(job_name):
             completed = True
         else:
             print(f"Sbatch Job {job_name} for user {os.environ['USER']} still has {len(job_ids)} running")
-            time.sleep(60)  # Wait for 1 minute before checking again
+            time.sleep(600)  # Wait for 1 minute before checking again
     return completed
 
 def main(args):
@@ -93,10 +93,14 @@ def main(args):
     slurm_job_name = "hvSlurm"
     slurm_script = f"""#!/bin/bash
 #SBATCH --job-name=hvSlurm
+#SBATCH --account=tgen
+#SBATCH --partition=debug
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem-per-cpu=1024M
+#SBATCH --cpus-per-task=16
 #SBATCH --output={slurm_dir}/logs/output_%j.log
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=1
-#SBATCH --time=01:00:00
+#SBATCH --export=ALL
 #SBATCH --array=1-{n}
 
 PROGRAM_PATH="../sars-cov-2-harvest-variants/src/HarvestVariants/sra2vcf.py"

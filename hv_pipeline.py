@@ -3,7 +3,6 @@ import os
 import subprocess
 import time
 
-start_time = time.time()
 
 # Create directory structure if it doesn't already exist
 data_dir = "Data"
@@ -19,6 +18,7 @@ os.makedirs(suggester_dir, exist_ok=True)
 os.makedirs(xml_dir, exist_ok=True)
 
 
+start_time1 = time.time()
 # Program 1: Run downloader.py and save original xml outputs to ./Data/xml
 parser1 = argparse.ArgumentParser()
 parser1.add_argument("--email", required=False)
@@ -40,9 +40,11 @@ cmd1 = ["python", "src/downloader.py",
 subprocess.run(cmd1, check=True)
 
 time.sleep(5)
-print("Downloader completed in", round(time.time() - start_time, 2), "seconds")
+elapsed_time1 = round(time.time() - start_time1, 2)
+print("Downloader completed in", elapsed_time1, "seconds")
 
 
+start_time2 = time.time()
 # Program 2: Run xml_pp and save the pretty print xml outputs to ./Data/xml
 input_pp_file_path = output_xml_file_path
 output_pp_file_path = input_pp_file_path.replace("original", "pp")
@@ -52,10 +54,12 @@ with open(output_pp_file_path, "w") as outfile:
     subprocess.run(cmd2, check=True, stdout=outfile)
 
 print(f"The original sra xml file has been converted to pretty print xml file in {output_pp_file_path}")
-print("XML file conversion completed in", round(time.time() - start_time, 2), "seconds")
+elapsed_time2 = round(time.time() - start_time2, 2)
+print("XML file conversion completed in", elapsed_time2, "seconds")
 time.sleep(5)
 
 
+start_time3 = time.time()
 # Program 3: Run run_suggester.py: trim the unused warning messages to avoid errors,
 # and save the sra run id list txt files to ./Data/suggester
 parser3 = argparse.ArgumentParser()
@@ -68,10 +72,12 @@ cmd3 = ["python", "src/run_Suggester.py",
 subprocess.run(cmd3, check=True)
 
 print(f"The ordered SRA IDs have been saved into ./Data/suggester/{start_date}_{end_date}.txt")
-print("run_Suggester completed in", round(time.time() - start_time, 2), "seconds")
+elapsed_time3 = round(time.time() - start_time3, 2)
+print("run_Suggester completed in", elapsed_time3, "seconds")
 time.sleep(5)
 
 
+start_time4 = time.time()
 # Program 4: Run hv in slurm and save the outputs to ./Data/hv/{current_hv_dir}
 parser4 = argparse.ArgumentParser()
 parser4.add_argument("--nStart", type=int, help="Starting index (inclusive) of IDs to process", default=None)
@@ -88,20 +94,33 @@ cmd4 = ["python", hv_program_path,
         "--nStart", str(args4.nStart),
         "--nEnd", str(args4.nEnd)]
 subprocess.run(cmd4, check=True)
-
-print("run_harvest_variants in Slurm mode is completed in", round(time.time() - start_time, 2), "seconds")
+elapsed_time4 = round(time.time() - start_time4, 2)
+print("run_harvest_variants in Slurm mode is completed in", elapsed_time4, "seconds")
 time.sleep(5)
 
 
+start_time5 = time.time()
 # Program 5: Run Pangolin Command line tool and save the outputs to ./Data/pango
 pangolin_program_path = "src/run_Pangolin.py"
 task_subdir = f"{start_date}_{end_date}_{args4.nStart}to{args4.nEnd}"
-input_fasta_file_dir = f"./Data/hv/{task_subdir}/consensus_genomes/"
+# input_fasta_file_dir = f"./Data/hv/{task_subdir}/consensus_genomes/"
 
 cmd5 = ["python", pangolin_program_path,
-        input_fasta_file_dir]
+        task_subdir]
 subprocess.run(cmd5, check=True)
 
 print("Pangolin has been executed and SRA ID csv files have been saved into ./Data/pango")
-print("Pangolin completed in", round(time.time() - start_time, 2), "seconds")
+elapsed_time5 = round(time.time() - start_time5, 2)
+print("Pangolin completed in", elapsed_time5, "seconds")
 time.sleep(5)
+
+
+# Save processing times to a txt file
+with open("processing_times.txt", "w") as file:
+    file.write(f"Program 1: {elapsed_time1} seconds\n")
+    file.write(f"Program 2: {elapsed_time2} seconds\n")
+    file.write(f"Program 3: {elapsed_time3} seconds\n")
+    file.write(f"Program 4: {elapsed_time4} seconds\n")
+    file.write(f"Program 5: {elapsed_time5} seconds\n")
+
+print("Processing times saved to processing_times.txt")

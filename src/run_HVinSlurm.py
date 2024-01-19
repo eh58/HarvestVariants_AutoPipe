@@ -109,7 +109,7 @@ REFERENCE_FILE="../sars-cov-2-harvest-variants/data/reference_file.fasta"
 
 PYTHON_EXECUTABLE=/home/Users/eh58/miniconda3/envs/harvest_variants/bin/python
 
-python $PROGRAM_PATH -r $REFERENCE_FILE -s $SINGLE_ID_FILE -o {current_hv_dir}
+python $PROGRAM_PATH -r $REFERENCE_FILE -numcore 16 -s $SINGLE_ID_FILE -o {current_hv_dir}
 """
 
     with open(f"{slurm_dir}/run_slurm.sh", "w") as f:
